@@ -1,0 +1,52 @@
+.main {
+  padding: 50px;
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: #333;
+}
+
+.calendar {
+  border: 1px solid #444;
+  padding: 5px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.calendar_inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 5px;
+}
+
+.calendar_day {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #4a4a4a;
+  color: #fff;
+}
+
+.calendar_today {
+  background-color: rgb(141, 86, 86);
+}
+
+.calendar_nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.calendar_event_container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.calendar_event {
+  background-color: #6b8c73;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
