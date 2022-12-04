@@ -1,3 +1,11 @@
+:root {
+  --calendar-bg: #4a4a4a;
+  --calendar-accent: #8d5656;
+  --calendar-success: #6b8c73;
+  --main-bg: #333;
+  --light-border: #444;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

@@ -10,9 +10,17 @@ interface Event {
 
 type Schedule = Map<string, Map<string, Event>>;
 
+const weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+const getWeekday = (date: Date) => weekdays[date.getDay()];
+
 export default function Home() {
   const [date, setDate] = useState<Date>(() => new Date());
   const [schedule, setSchedule] = useState<Schedule>(() => new Map());
+
+  const first_date = new Date(date.getFullYear(), date.getMonth(), 1);
+  const last_date = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  const start_offeset = weekdays.indexOf(getWeekday(first_date)) > 0 ? weekdays.indexOf(getWeekday(first_date)) - 1 : 6;
+  const end_offeset = weekdays.length - weekdays.indexOf(getWeekday(last_date));
 
   const month = date.toLocaleDateString("es-UY", {
     month: "long",
@@ -42,7 +50,6 @@ export default function Home() {
       title,
       date: new Date(),
     });
-    console.log(draft);
     setSchedule(draft);
   };
 
@@ -69,6 +76,11 @@ export default function Home() {
             <span className={styles.calendar_month}>{month_capitalize}</span>
             <button onClick={() => handleMonthChange(1)}>→</button>
           </nav>
+          <div className={styles.calendar_weekdays}>
+            {weekdays.map((day, i) => (
+              <div key={i}>{day}</div>
+            ))}
+          </div>
           <div className={styles.calendar_inner}>
             {Array.from(
               {
@@ -90,13 +102,24 @@ export default function Home() {
                     className={`${styles.calendar_day} ${i + 1} ${
                       i + 1 == date.getDate() ? styles.calendar_today : ""
                     }`}
+                    style={{
+                      gridColumnStart: i == 0 ? start_offeset + 1 : ''
+                    }}
                   >
                     <>
                       <div className={styles.calendary_day_number}>{i + 1}</div>
                       {events && (
                         <div className={styles.calendar_event_container}>
                           {Array.from(events.values()).map((event) => (
-                            <div onClick={(ev) => handleDeleteEvent(ev, key, event)} className={styles.calendar_event} key={event.id}>{event.title}</div>
+                            <div
+                              onClick={(ev) =>
+                                handleDeleteEvent(ev, key, event)
+                              }
+                              className={styles.calendar_event}
+                              key={event.id}
+                            >
+                              {event.title}
+                            </div>
                           ))}
                         </div>
                       )}
