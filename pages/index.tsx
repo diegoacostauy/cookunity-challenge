@@ -18,9 +18,7 @@ export default function Home() {
   const [schedule, setSchedule] = useState<Schedule>(() => new Map());
 
   const first_date = new Date(date.getFullYear(), date.getMonth(), 1);
-  const last_date = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const start_offeset = weekdays.indexOf(getWeekday(first_date)) > 0 ? weekdays.indexOf(getWeekday(first_date)) - 1 : 6;
-  const end_offeset = weekdays.length - weekdays.indexOf(getWeekday(last_date));
 
   const month = date.toLocaleDateString("es-UY", {
     month: "long",
@@ -95,12 +93,13 @@ export default function Home() {
                   i + 1
                 }`;
                 const events = schedule.get(key);
+                const today = new Date();
                 return (
                   <div
                     onClick={() => handleNewEvent(key)}
                     key={i}
                     className={`${styles.calendar_day} ${i + 1} ${
-                      i + 1 == date.getDate() ? styles.calendar_today : ""
+                      i + 1 == date.getDate() && date.getMonth() == today.getMonth() ? styles.calendar_today : ""
                     }`}
                     style={{
                       gridColumnStart: i == 0 ? start_offeset + 1 : ''
